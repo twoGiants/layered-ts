@@ -1,6 +1,6 @@
-import { Department } from "../enums/department.code.enum";
-import { JobRole } from "../enums/job.role.enum";
 import { v4 as uuid } from "uuid";
+import { JobRole } from "@core/enums/job.role.enum";
+import { Department } from "@core/enums/department.code.enum";
 
 export class EmployeeEntity {
   readonly #id: string;

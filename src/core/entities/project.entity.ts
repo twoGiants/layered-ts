@@ -1,6 +1,6 @@
-import { EmployeeEntity } from "./employee.entity";
+import { Address } from "@core/values/address.value";
 import { v4 as uuid } from "uuid";
-import { Address } from "../values/address.value";
+import { EmployeeEntity } from "./employee.entity";
 
 export class ProjectEntity {
   readonly #id: string;

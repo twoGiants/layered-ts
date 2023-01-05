@@ -4,7 +4,8 @@
   "description": "Opinionated, minmal, TypeScript/Node.js backend project boilerplate.",
   "main": "main.ts",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "pretty": "prettier --write ."
   },
   "keywords": [
     "backend",

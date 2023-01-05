@@ -16,6 +16,15 @@
     }
   },
   "compilerOptions": {
-    // typescript options here
+    "paths": {
+      "@core/*": ["src/core/*"],
+      "@dal/*": ["src/dal/*"],
+      "@app/*": ["src/app/*"],
+    },
+    "outDir": "./dist",
+    "rootDirs": [
+      "./src",
+    ],
+    "baseUrl": "./",
   }
 }

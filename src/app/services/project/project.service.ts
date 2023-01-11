@@ -5,10 +5,7 @@ import { CreateProjectDto } from "@core/dtos/create.project.dto";
 import { ProjectEntity } from "@core/entities/project.entity";
 import { Country } from "@core/enums/country.enum";
 import { Address } from "@core/values/address.value";
-
-export interface ProjectService {
-  createProject(dto: CreateProjectDto): Promise<ProjectEntity>;
-}
+import { ProjectService } from "./project.service.interface";
 
 export class ProjectServiceImpl implements ProjectService {
   #employeeRepository: EmployeeRepository;

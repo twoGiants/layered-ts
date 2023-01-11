@@ -17,9 +17,10 @@
   },
   "compilerOptions": {
     "paths": {
+      "@api/*": ["src/api/*"],
+      "@app/*": ["src/app/*"],
       "@core/*": ["src/core/*"],
       "@dal/*": ["src/dal/*"],
-      "@app/*": ["src/app/*"],
     },
     "outDir": "./dist",
     "rootDirs": [

@@ -34,4 +34,8 @@ export class ProjectEntity {
   get responsibleDetails() {
     return this.#responsible.fullDetails;
   }
+
+  get responsible() {
+    return this.#responsible;
+  }
 }

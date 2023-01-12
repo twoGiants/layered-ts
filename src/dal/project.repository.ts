@@ -7,7 +7,7 @@ import { ProjectEntity } from "@core/entities/project.entity";
 export class ProjectRepositoryImpl implements ProjectRepository {
   constructor() {}
 
-  createProject(validProject: ProjectEntity): Promise<ProjectEntity> {
+  save(validProject: ProjectEntity): Promise<ProjectEntity> {
     return Promise.resolve({} as ProjectEntity);
   }
 }

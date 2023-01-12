@@ -2,13 +2,14 @@ import { EmployeeRepository } from "@app/repositories/emploee.repository.interfa
 import { EmployeeEntity } from "@core/entities/employee.entity";
 
 /**
- * @info provice db package class in constructor, no need to wrap the db
+ * @info Repository Implementations Priniciples
+ * - instantiate db provice db package class in constructor, no need to wrap the db
  */
 export class EmployeeRepositoryImpl implements EmployeeRepository {
   constructor() {}
 
-  createEmployee(validEmployee: EmployeeEntity): Promise<void> {
-    return Promise.resolve();
+  save(validEmployee: EmployeeEntity): Promise<EmployeeEntity> {
+    return Promise.resolve({} as EmployeeEntity);
   }
 
   loadById(id: string): Promise<EmployeeEntity> {

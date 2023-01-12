@@ -44,6 +44,6 @@ export class ProjectServiceImpl implements ProjectService {
 
     const newProject = new ProjectEntity(dto.title, projectAddress, projectResponsible);
 
-    return this.#projectRepository.createProject(newProject);
+    return this.#projectRepository.save(newProject);
   }
 }

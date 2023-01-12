@@ -20,6 +20,6 @@ export class EmployeeServiceImpl implements EmployeeService {
       <JobRole>dto.jobRole,
     );
 
-    return this.#employeeRepository.createEmployee(employee);
+    return this.#employeeRepository.save(employee);
   }
 }

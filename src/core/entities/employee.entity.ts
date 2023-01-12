@@ -45,4 +45,12 @@ export class EmployeeEntity {
       jobRole: this.#jobRole,
     };
   }
+
+  get department() {
+    return this.#department;
+  }
+
+  get jobRole() {
+    return this.#jobRole;
+  }
 }

@@ -3,7 +3,9 @@ import { EmployeeEntity } from "@core/entities/employee.entity";
 
 /**
  * @info Repository Implementations Priniciples
- * - instantiate db provice db package class in constructor, no need to wrap the db
+ * - provide "persistence dependency" via constructor
+ * - use interface type if possible for testing
+ * - persistence dependency: fs, sql, nosql, key-value, blockchain, ...
  */
 export class EmployeeRepositoryImpl implements EmployeeRepository {
   constructor() {}
@@ -14,5 +16,9 @@ export class EmployeeRepositoryImpl implements EmployeeRepository {
 
   loadById(id: string): Promise<EmployeeEntity> {
     return Promise.resolve({} as EmployeeEntity);
+  }
+
+  loadAll(): Promise<EmployeeEntity[]> {
+    return Promise.resolve([] as EmployeeEntity[]);
   }
 }

@@ -11,4 +11,8 @@ export class EmployeeMapper {
       jobRole: employee.jobRole,
     };
   }
+
+  static toOutputDtos(employees: EmployeeEntity[]): EmployeeOutputDto[] {
+    return employees.map((e) => EmployeeMapper.toOutputDto(e));
+  }
 }

@@ -1,8 +1,7 @@
+import { Request, Response, Router } from "express";
 import { EmployeeService } from "@app/services/employee/employee.service.interface";
 import { CreateEmployeeDto } from "@core/dtos/create.employee.dto";
-import { EmployeeOutputDto } from "@api/rest/dtos/employee.output.dto";
 import { EmployeeMapper } from "@api/rest/mappers/employee.mapper";
-import { Router } from "express";
 import { EmployeeRepository } from "@app/repositories/emploee.repository.interface";
 
 export class EmployeeController {
@@ -21,20 +20,28 @@ export class EmployeeController {
 
   #initRoutes() {
     this.router.get(`${EmployeeController.PATH}/employees`, this.getAllemployees);
+    this.router.get(`${EmployeeController.PATH}/employees/:id`, this.getEmployee);
     this.router.post(`${EmployeeController.PATH}/employees`, this.createEmployee);
   }
 
-  getAllemployees = async (): Promise<EmployeeOutputDto[]> => {
-    const employees = await this.#employeeRepository.loadAll();
-
-    return Promise.resolve(EmployeeMapper.toOutputDtos(employees));
-  };
-
-  createEmployee = async (
-    createEmployeeDto: CreateEmployeeDto,
-  ): Promise<EmployeeOutputDto> => {
+  createEmployee = async (request: Request, response: Response) => {
+    const createEmployeeDto: CreateEmployeeDto = request.body;
     const employee = await this.#employeeService.createEmployee(createEmployeeDto);
 
-    return Promise.resolve(EmployeeMapper.toOutputDto(employee));
+    response.json(EmployeeMapper.toOutputDto(employee));
+  };
+
+  getEmployee = async (request: Request, response: Response) => {
+    const employeeId = request.params.id;
+
+    const employee = await this.#employeeRepository.loadById(employeeId);
+
+    response.json(EmployeeMapper.toOutputDto(employee));
+  };
+
+  getAllemployees = async (_: Request, response: Response) => {
+    const employees = await this.#employeeRepository.loadAll();
+
+    response.json(EmployeeMapper.toOutputDtos(employees));
   };
 }

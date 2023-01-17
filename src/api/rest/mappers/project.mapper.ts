@@ -10,4 +10,8 @@ export class ProjectMapper {
       responsible: project.responsible,
     };
   }
+
+  static toOutputDtos(projects: ProjectEntity[]): ProjectOutputDto[] {
+    return projects.map((p) => ProjectMapper.toOutputDto(p));
+  }
 }

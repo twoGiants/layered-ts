@@ -6,7 +6,9 @@ import { EmployeeRepository } from "@app/repositories/emploee.repository.interfa
 
 export class EmployeeController {
   static PATH = "/hr";
+
   router: Router;
+
   #employeeService: EmployeeService;
   #employeeRepository: EmployeeRepository;
 

@@ -14,12 +14,13 @@ export class EmployeeEntity {
     lastname: string,
     department: Department,
     jobrole: JobRole,
+    id = uuid(),
   ) {
-    this.#id = uuid();
     this.#firstname = firstname;
     this.#lastname = lastname;
     this.#department = department;
     this.#jobRole = jobrole;
+    this.#id = id;
   }
 
   get id() {

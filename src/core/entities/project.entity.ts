@@ -8,11 +8,16 @@ export class ProjectEntity {
   readonly #location: Address;
   readonly #responsible: EmployeeEntity;
 
-  constructor(title: string, location: Address, responsible: EmployeeEntity) {
-    this.#id = uuid();
+  constructor(
+    title: string,
+    location: Address,
+    responsible: EmployeeEntity,
+    id = uuid(),
+  ) {
     this.#title = title;
     this.#location = location.copy;
     this.#responsible = responsible;
+    this.#id = id;
   }
 
   get id() {

@@ -35,6 +35,14 @@ export class EmployeeEntity {
     return this.#lastname;
   }
 
+  get department() {
+    return this.#department;
+  }
+
+  get jobRole() {
+    return this.#jobRole;
+  }
+
   get fullName() {
     return `${this.firstname} ${this.lastname}`;
   }
@@ -47,11 +55,13 @@ export class EmployeeEntity {
     };
   }
 
-  get department() {
-    return this.#department;
-  }
-
-  get jobRole() {
-    return this.#jobRole;
+  toJSON() {
+    return {
+      id: this.#id,
+      firstname: this.#firstname,
+      lastname: this.#lastname,
+      department: this.#department,
+      jobRole: this.#jobRole,
+    };
   }
 }

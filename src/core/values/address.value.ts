@@ -30,4 +30,14 @@ export class Address {
       this.#zip,
     );
   }
+
+  toJSON() {
+    return {
+      streetname: this.#streetname,
+      streetnumber: this.#streetnumber,
+      city: this.#city,
+      country: this.#country,
+      zip: this.#zip,
+    };
+  }
 }

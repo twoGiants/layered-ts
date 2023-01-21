@@ -1,5 +1,9 @@
 import { ProjectRepository } from "@app/repositories/project.repository.interface";
 import { ProjectEntity } from "@core/entities/project.entity";
+import {
+  createCustomProjectEntity,
+  createDefaultProjectEntity,
+} from "@core/entities/project.entity.mock";
 
 /**
  * @info Repository Implementations Priniciples
@@ -11,14 +15,16 @@ export class ProjectRepositoryImpl implements ProjectRepository {
   constructor() {}
 
   save(validProject: ProjectEntity): Promise<ProjectEntity> {
-    return Promise.resolve({} as ProjectEntity);
+    // add storage logic here
+
+    return Promise.resolve(validProject);
   }
 
   loadById(id: string): Promise<ProjectEntity> {
-    return Promise.resolve({} as ProjectEntity);
+    return Promise.resolve(createCustomProjectEntity({ id }));
   }
 
   loadAll(): Promise<ProjectEntity[]> {
-    return Promise.resolve([] as ProjectEntity[]);
+    return Promise.resolve([createDefaultProjectEntity(), createDefaultProjectEntity()]);
   }
 }

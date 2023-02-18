@@ -4,4 +4,5 @@ export enum Country {
   GB = "Great Britain",
   US = "United States",
   JP = "Japan",
+  AT = "Austria",
 }

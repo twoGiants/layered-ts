@@ -5,17 +5,27 @@ import { EmployeeServiceImpl } from "@app/services/employee/employee.service";
 import { ProjectRepositoryImpl } from "@dal/project.repository";
 import { ProjectServiceImpl } from "@app/services/project/project.service";
 import { ProjectController } from "@api/rest/controllers/project.controller";
+import { ErrorHandler } from "@api/rest/errors/error.handler";
+import { Logger } from "@core/common/logger.interface";
 
 class WebServer {
   #server: ExpressHttpServer;
   #port: number;
+  #logger: Logger;
 
-  constructor(controllers: any[], port: number) {
+  constructor(
+    controllers: any[],
+    port: number,
+    errorHandler: ErrorHandler,
+    logger: Logger,
+  ) {
     this.#server = express();
     this.#port = port;
+    this.#logger = logger;
 
     this.#initMiddleware();
     this.#initControllers(controllers);
+    this.#initErrorHandling(errorHandler);
   }
 
   #initMiddleware() {
@@ -26,9 +36,13 @@ class WebServer {
     controllers.forEach((controller) => this.#server.use("/api/v1", controller.router));
   }
 
+  #initErrorHandling(errorHandler: ErrorHandler) {
+    this.#server.use(errorHandler.handle.bind(errorHandler));
+  }
+
   listen() {
     this.#server.listen(this.#port, () =>
-      console.log(`🚀 Server ready at: http://localhost:3000`),
+      this.#logger.info(`🚀 Server ready at: http://localhost:${this.#port}`),
     );
   }
 }
@@ -43,5 +57,13 @@ const projectRepository = new ProjectRepositoryImpl();
 const projectService = new ProjectServiceImpl(employeeRepository, projectRepository);
 const projectController = new ProjectController(projectService, projectRepository);
 
-const server = new WebServer([employeeController, projectController], 3000);
+const logger = console;
+const errorHandler = new ErrorHandler(logger);
+
+const server = new WebServer(
+  [employeeController, projectController],
+  3000,
+  errorHandler,
+  logger,
+);
 server.listen();

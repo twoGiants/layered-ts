@@ -1,8 +1,9 @@
-import { Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { CreateProjectDto } from "@core/dtos/create.project.dto";
 import { ProjectMapper } from "@api/rest/mappers/project.mapper";
 import { ProjectService } from "@app/services/project/project.service.interface";
 import { ProjectRepository } from "@app/repositories/project.repository.interface";
+import { CreateProjectDtoSchema } from "@core/dtos/create.project.dto.schema";
 
 export class ProjectController {
   static PATH = "/consulting";
@@ -21,17 +22,27 @@ export class ProjectController {
   }
 
   #initRoutes() {
-    // todo add types
     this.router.post(`${ProjectController.PATH}/projects`, this.createProject);
     this.router.get(`${ProjectController.PATH}/projects`, this.getProjects);
     this.router.get(`${ProjectController.PATH}/projects/:id`, this.getProject);
   }
 
-  createProject = async (request: Request, response: Response) => {
-    const createProjectDto: CreateProjectDto = request.body;
-    const project = await this.#projectService.createProject(createProjectDto);
+  createProject = async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      await CreateProjectDtoSchema.validate(request.body);
+    } catch (error) {
+      next(error);
+      return;
+    }
 
-    response.json(ProjectMapper.toOutputDto(project));
+    const createProjectDto: CreateProjectDto = request.body;
+
+    try {
+      const project = await this.#projectService.createProject(createProjectDto);
+      response.status(200).json(ProjectMapper.toOutputDto(project));
+    } catch (error) {
+      next(error);
+    }
   };
 
   getProject = async (request: Request, response: Response) => {

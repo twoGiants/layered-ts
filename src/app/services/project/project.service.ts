@@ -1,4 +1,3 @@
-import { ApplicationException } from "@app/exceptions/application.exception";
 import { EmployeeRepository } from "@app/repositories/emploee.repository.interface";
 import { ProjectRepository } from "@app/repositories/project.repository.interface";
 import { CreateProjectDto } from "@core/dtos/create.project.dto";
@@ -27,12 +26,6 @@ export class ProjectServiceImpl implements ProjectService {
   // - update state
   async createProject(dto: CreateProjectDto): Promise<ProjectEntity> {
     const projectResponsible = await this.#employeeRepository.loadById(dto.responsibleId);
-
-    if (!projectResponsible) {
-      throw new ApplicationException(
-        `Document not found. Provided id: ${dto.responsibleId}`,
-      );
-    }
 
     const projectAddress = new Address(
       dto.streetname,

@@ -4,6 +4,7 @@ import {
   createCustomEmployee,
   createDefaultEmployee,
 } from "@core/entities/employee.entity.mock";
+import { NotFoundException } from "./exceptions/not.found.exception";
 
 /**
  * @info Repository Implementations Priniciples
@@ -19,7 +20,12 @@ export class EmployeeRepositoryImpl implements EmployeeRepository {
   }
 
   loadById(id: string): Promise<EmployeeEntity> {
-    return Promise.resolve(createCustomEmployee({ id }));
+    try {
+      if (id === "1") return Promise.resolve(createCustomEmployee({ id }));
+      throw new Error("document not found");
+    } catch (error) {
+      throw new NotFoundException(id, "employee");
+    }
   }
 
   loadAll(): Promise<EmployeeEntity[]> {

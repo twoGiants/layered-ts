@@ -32,7 +32,7 @@ export class ProjectEntity {
     return this.#location.copy;
   }
 
-  get resposnsibleName() {
+  get responsibleName() {
     return this.#responsible.fullName;
   }
 

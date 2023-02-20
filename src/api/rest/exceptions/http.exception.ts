@@ -12,7 +12,7 @@ export class HttpException extends Error {
     return {
       status: this.status,
       message: this.message,
-      originalException: this.initialException,
+      initialException: this.initialException,
     };
   }
 }

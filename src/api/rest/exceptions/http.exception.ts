@@ -8,7 +8,7 @@ export class HttpException extends Error {
     this.initialException = error;
   }
 
-  get pojo(): object {
+  toJSON(): object {
     return {
       status: this.status,
       message: this.message,

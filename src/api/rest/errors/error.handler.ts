@@ -12,9 +12,9 @@ export class ErrorHandler {
   }
 
   handle(error: Error, _: Request, response: Response, __: NextFunction) {
-    let err: HttpException = this.#mapErrorToHttpException(error);
+    const err = this.#mapErrorToHttpException(error);
 
-    response.status(err.status).json(err.pojo);
+    response.status(err.status).json(err);
 
     this.#logger.error(err);
   }

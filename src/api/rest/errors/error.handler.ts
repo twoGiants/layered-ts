@@ -3,6 +3,7 @@ import { HttpException } from "@api/rest/exceptions/http.exception";
 import { UnknownException } from "../exceptions/unknown.exception";
 import { ValidationException } from "@core/exceptions/validation.exception";
 import { Logger } from "@core/common/logger.interface";
+import { NotFoundException } from "@dal/exceptions/not.found.exception";
 
 export class ErrorHandler {
   #logger: Logger;
@@ -20,12 +21,13 @@ export class ErrorHandler {
   }
 
   #mapErrorToHttpException(error: Error): HttpException {
-    if (error instanceof ValidationException) {
-      return new HttpException(400, error);
-    } else if ((<any>error)?.type === "entity.parse.failed") {
+    if (error instanceof ValidationException) return new HttpException(400, error);
+
+    if (error instanceof NotFoundException) return new HttpException(404, error);
+
+    if ((<any>error)?.type === "entity.parse.failed")
       return new HttpException(400, error, "parsing request body json object failed");
-    } else {
-      return new UnknownException(error);
-    }
+
+    return new UnknownException(error);
   }
 }

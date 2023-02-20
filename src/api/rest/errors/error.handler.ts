@@ -12,15 +12,20 @@ export class ErrorHandler {
   }
 
   handle(error: Error, _: Request, response: Response, __: NextFunction) {
-    this.#logger.error(error);
+    let err: HttpException = this.#mapErrorToHttpException(error);
 
+    response.status(err.status).json(err.pojo);
+
+    this.#logger.error(err);
+  }
+
+  #mapErrorToHttpException(error: Error): HttpException {
     if (error instanceof ValidationException) {
-      const responseError = new HttpException(400, error);
-      response.status(responseError.status).send(responseError.pojo);
-      return;
+      return new HttpException(400, error);
+    } else if ((<any>error)?.type === "entity.parse.failed") {
+      return new HttpException(400, error, "parsing request body json object failed");
+    } else {
+      return new UnknownException(error);
     }
-
-    const responseError = new UnknownException(error);
-    response.status(responseError.status).json(responseError.pojo);
   }
 }

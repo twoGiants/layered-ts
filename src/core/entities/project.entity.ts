@@ -2,6 +2,38 @@ import { Address } from "@core/values/address.value";
 import { v4 as uuid } from "uuid";
 import { EmployeeEntity } from "./employee.entity";
 
+enum ProjectStatus {
+  PLANNING = "planning",
+  ACTIVE = "active",
+  COMPLETED = "completed",
+}
+
+class WorkCatalogEntity {
+  get complete() {
+    return true;
+  }
+
+  toJSON() {
+    return {};
+  }
+}
+
+class InvoiceEntity {
+  toJSON() {
+    return {};
+  }
+}
+
+class CompanyEntity {
+  toJSON() {
+    return {};
+  }
+
+  get complete() {
+    return true;
+  }
+}
+
 export class ProjectEntity {
   readonly #id: string;
   readonly #title: string;

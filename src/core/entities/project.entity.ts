@@ -1,3 +1,5 @@
+import { EntityName } from "@core/enums/entity.name.enum";
+import { NullEntityForbiddenException } from "@core/exceptions/null.entity.forbidden.exception";
 import { ProjctNotReadyException } from "@core/exceptions/project.not.ready.exception";
 import { Address } from "@core/values/address.value";
 import { v4 as uuid } from "uuid";
@@ -156,9 +158,12 @@ export class XXXProjectEntity {
     );
   }
 
-  // todo change into setter
-  linkWorkCatalog(workCatalog: WorkCatalogEntity) {
-    this.#workCatalog = workCatalog;
+  set workCatalog(theWorkCatalog: WorkCatalogEntity) {
+    if (!theWorkCatalog) {
+      throw new NullEntityForbiddenException(EntityName.WorkCatalogEntity);
+    }
+
+    this.#workCatalog = theWorkCatalog;
   }
 
   startProject() {

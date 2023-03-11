@@ -21,6 +21,7 @@
     "alwaysStrict": true,
     "strictNullChecks": true,
     "strictFunctionTypes": false,
+    "sourceMap": true,
     "target": "ES2020",
     "module": "CommonJS"
   }

@@ -1,6 +1,9 @@
 {
   "spec_dir": "src",
   "spec_files": ["**/*spec.ts"],
+  "helpers": [
+    "../jasmine/reporter.ts"
+  ],
   "env": {
     "stopSpecOnExpectationFailure": false,
     "random": false

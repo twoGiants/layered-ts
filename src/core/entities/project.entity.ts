@@ -117,6 +117,23 @@ export interface ProjectEntityExport {
   client?: object;
 }
 
+export interface WorkCatalogInput {
+  id: string;
+}
+
+export interface CompanyInput {
+  id: string;
+}
+
+export interface ProjectPlanningInput {
+  title: string;
+  location: AddressInput;
+  responsibleEngineer?: EmployeeInput;
+  constructionWorkers?: EmployeeInput[];
+  workCatalog?: WorkCatalogInput;
+  client?: CompanyInput;
+}
+
 export class XXXProjectEntity {
   readonly #id: string;
   readonly #title: string;

@@ -2,6 +2,22 @@ import { v4 as uuid } from "uuid";
 import { JobRole } from "@core/enums/job.role.enum";
 import { Department } from "@core/enums/department.code.enum";
 
+export interface EmployeeEntityPlain {
+  id: string;
+  firstname: string;
+  lastname: string;
+  department: Department;
+  jobRole: JobRole;
+}
+
+export interface EmployeeInput {
+  id: string;
+  firstname: string;
+  lastname: string;
+  department: Department;
+  jobRole: JobRole;
+}
+
 export class EmployeeEntity {
   readonly #id: string;
   readonly #firstname: string;

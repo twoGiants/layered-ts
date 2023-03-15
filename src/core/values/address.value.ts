@@ -1,5 +1,21 @@
 import { Country } from "@core/enums/country.enum";
 
+export interface AddressInput {
+  streetname: string;
+  streetnumber: number;
+  city: string;
+  country: Country;
+  zip: string;
+}
+
+export interface AddressPlain {
+  streetname: string;
+  streetnumber: number;
+  city: string;
+  country: Country;
+  zip: string;
+}
+
 export class Address {
   #streetname: string;
   #streetnumber: number;
@@ -7,13 +23,7 @@ export class Address {
   #country: Country;
   #zip: string;
 
-  constructor(
-    streetname: string,
-    streetnumber: number,
-    city: string,
-    country: Country,
-    zip: string,
-  ) {
+  constructor({ streetname, streetnumber, city, country, zip }: AddressInput) {
     this.#streetname = streetname;
     this.#streetnumber = streetnumber;
     this.#city = city;
@@ -22,13 +32,13 @@ export class Address {
   }
 
   get copy() {
-    return new Address(
-      this.#streetname,
-      this.#streetnumber,
-      this.#city,
-      this.#country,
-      this.#zip,
-    );
+    return new Address({
+      streetname: this.#streetname,
+      streetnumber: this.#streetnumber,
+      city: this.#city,
+      country: this.#country,
+      zip: this.#zip,
+    });
   }
 
   toJSON() {

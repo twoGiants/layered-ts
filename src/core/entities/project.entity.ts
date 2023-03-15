@@ -1,9 +1,10 @@
 import { EntityName } from "@core/enums/entity.name.enum";
 import { NullEntityForbiddenException } from "@core/exceptions/null.entity.forbidden.exception";
 import { ProjctNotReadyException } from "@core/exceptions/project.not.ready.exception";
-import { Address } from "@core/values/address.value";
+import { ProjctNotReadyForPlanningException } from "@core/exceptions/project.not.ready.for.planning.exception";
+import { Address, AddressInput, AddressPlain } from "@core/values/address.value";
 import { v4 as uuid } from "uuid";
-import { EmployeeEntity } from "./employee.entity";
+import { EmployeeEntity, EmployeeEntityPlain, EmployeeInput } from "./employee.entity";
 
 enum ProjectStatus {
   PLANNING = "planning",
@@ -103,12 +104,12 @@ export class ProjectEntity {
   }
 }
 
-export interface ProjectEntityExport {
+export interface ProjectEntityPlain {
   id: string;
   title: string;
-  location: object;
-  responsibleEngineer: object;
-  constructionWorkers?: object[];
+  location: AddressPlain;
+  responsibleEngineer?: EmployeeEntityPlain;
+  constructionWorkers?: EmployeeEntityPlain[];
   workCatalog?: object;
   status: ProjectStatus;
   startDate?: Date;
@@ -136,47 +137,79 @@ export interface ProjectPlanningInput {
 
 export class XXXProjectEntity {
   readonly #id: string;
-  readonly #title: string;
-  readonly #location: Address;
-  // todo: extract both into team class
-  readonly #responsibleEngineer: EmployeeEntity;
+  #location!: Address;
+  #title!: string;
+  #status!: ProjectStatus;
+  #responsibleEngineer?: EmployeeEntity;
   #constructionWorkers?: EmployeeEntity[];
   #workCatalog?: WorkCatalogEntity;
-  #status: ProjectStatus;
   #startDate?: Date;
   #endDate?: Date;
   #invoices?: InvoiceEntity[];
   #client?: CompanyEntity;
 
-  private constructor(
-    title: string,
-    location: Address,
-    responsibleEngineer: EmployeeEntity,
-    constructionWorkers: EmployeeEntity[],
-    id: string,
-  ) {
-    this.#title = title;
-    this.#location = location.copy;
-    this.#responsibleEngineer = responsibleEngineer;
-    this.#constructionWorkers = constructionWorkers;
+  private constructor(id: string) {
     this.#id = id;
-    this.#status = ProjectStatus.PLANNING;
   }
 
-  static createNewProject(
-    title: string,
-    // todo create address value object here
-    location: Address,
-    responsibleEngineer: EmployeeEntity,
-    constructionWorkers?: EmployeeEntity[],
-  ): ProjectEntity {
-    return new ProjectEntity(
+  static startProjectPlanning(projectStartInput: ProjectPlanningInput): XXXProjectEntity {
+    const project = new XXXProjectEntity(uuid());
+
+    project.#projectIsReadyForPlanning(projectStartInput);
+
+    const {
       title,
       location,
       responsibleEngineer,
-      constructionWorkers ?? [],
-      uuid(),
-    );
+      constructionWorkers,
+      workCatalog,
+      client,
+    } = projectStartInput;
+
+    project.#location = new Address(location);
+    project.#title = title;
+
+    if (responsibleEngineer)
+      project.#responsibleEngineer = new EmployeeEntity(responsibleEngineer);
+
+    if (constructionWorkers)
+      project.#constructionWorkers = constructionWorkers.map(
+        (worker) => new EmployeeEntity(worker),
+      );
+
+    if (workCatalog) project.#workCatalog = new WorkCatalogEntity(workCatalog);
+
+    if (client) project.#client = new CompanyEntity(client);
+
+    project.#status = ProjectStatus.PLANNING;
+
+    return project;
+  }
+
+  #projectIsReadyForPlanning(projectStartInput: ProjectPlanningInput) {
+    const { title, location } = projectStartInput;
+
+    const errorMessages: string[] = [];
+
+    if (!title) {
+      errorMessages.push("project title is missing");
+    }
+
+    if (!location) {
+      errorMessages.push("project location is missing");
+    }
+
+    if (errorMessages.length > 0) {
+      throw new ProjctNotReadyForPlanningException(errorMessages);
+    }
+  }
+
+  get id() {
+    return this.#id;
+  }
+
+  get inPlanning(): boolean {
+    return this.#status === ProjectStatus.PLANNING;
   }
 
   set workCatalog(theWorkCatalog: WorkCatalogEntity) {

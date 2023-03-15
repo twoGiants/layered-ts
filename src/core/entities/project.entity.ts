@@ -12,6 +12,8 @@ enum ProjectStatus {
 }
 
 class WorkCatalogEntity {
+  constructor(workCatalogInput: WorkCatalogInput) {}
+
   get complete() {
     return true;
   }
@@ -28,6 +30,8 @@ class InvoiceEntity {
 }
 
 class CompanyEntity {
+  constructor(companyInput: CompanyInput) {}
+
   toJSON() {
     return {};
   }
